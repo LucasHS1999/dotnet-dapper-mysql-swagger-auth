@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     var services = builder.Services;
     var env = builder.Environment;
- 
+
     services.AddCors();
     services.AddControllers().AddJsonOptions(x =>
     {
@@ -28,6 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddSingleton<DataContext>();
     services.AddScoped<IUserRepository, UserRepository>();
     services.AddScoped<IUserService, UserService>();
+    services.AddSwaggerGen();
 }
 
 var app = builder.Build();
@@ -51,6 +52,8 @@ var app = builder.Build();
     app.UseMiddleware<ErrorHandlerMiddleware>();
 
     app.MapControllers();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.Run("http://localhost:4000");
